@@ -10,7 +10,9 @@ public class WheelOfInput : MonoBehaviour
 
     private void Awake()
     {
+        float diametr = _inputer.Radius * 2;
         _rectTransform = GetComponent<RectTransform>();
+        _rectTransform.sizeDelta = new Vector2(diametr, diametr);
         _screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
     }
 

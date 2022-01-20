@@ -37,6 +37,8 @@ public class Player : MonoBehaviour
     private void Rotate(Vector3 direction)
     {
         Quaternion targetQuaternion = Quaternion.FromToRotation(Vector3.forward, direction);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetQuaternion, _rotationSpeed * Time.deltaTime);
+        float targetAngle = Mathf.Sign(direction.x) * Quaternion.Angle(Quaternion.identity, targetQuaternion);
+        float angle = Mathf.MoveTowardsAngle(transform.localEulerAngles.y, targetAngle, _rotationSpeed * Time.deltaTime);
+        transform.localEulerAngles = new Vector3(0f, angle, 0f);
     }
 }
