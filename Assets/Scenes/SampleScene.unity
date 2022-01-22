@@ -232,8 +232,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 376353766}
-  - component: {fileID: 376353765}
   - component: {fileID: 376353767}
+  - component: {fileID: 376353765}
   m_Layer: 0
   m_Name: Potatoues
   m_TagString: Untagged
@@ -250,11 +250,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 376353764}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f48b5ccbf4ee0c4490bdf003e5be4e9, type: 3}
+  m_Script: {fileID: 11500000, guid: ceb1ec85e8c87b64688d75f128a93d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 2094218782122516387, guid: 5877adbc48d2c6a4fa1e0a018f87e3eb, type: 3}
   _size: {x: 6, y: 6, z: 6}
+  _additionalSize: 3
 --- !u!4 &376353766
 Transform:
   m_ObjectHideFlags: 0
@@ -591,7 +592,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3996823e82d097428e7df2bb0dde781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationTime: 0.1
   _size: {x: 1, y: 6, z: 1}
 --- !u!65 &716067482
 BoxCollider:
@@ -721,6 +721,7 @@ MonoBehaviour:
   _inputer: {fileID: 963194229}
   _wheelOfInput: {fileID: 458858534}
   _showInputWheel: 0
+  _fries: {fileID: 376353765}
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -830,6 +831,66 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1749111222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1749111225}
+  - component: {fileID: 1749111224}
+  - component: {fileID: 1749111223}
+  m_Layer: 0
+  m_Name: Potatoues (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1749111223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749111222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b3968647edf41a4d9086ed9c8541f7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 2094218782122516387, guid: 5877adbc48d2c6a4fa1e0a018f87e3eb, type: 3}
+  _size: {x: 1, y: 1, z: 1}
+  _additionalSize: 0
+--- !u!65 &1749111224
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749111222}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.5791197, y: 6, z: 6}
+  m_Center: {x: 2.7179804, y: 0, z: -1.0203122e-14}
+--- !u!4 &1749111225
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749111222}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.29, y: 0.6, z: 3.09}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &2115517827
 GameObject:
   m_ObjectHideFlags: 0

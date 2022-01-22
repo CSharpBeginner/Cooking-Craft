@@ -96,3 +96,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _size: {x: 0.48, y: 0.69, z: 0.28}
+  _animationTime: 0.1

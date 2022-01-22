@@ -5,6 +5,12 @@ public class Game : MonoBehaviour
     [SerializeField] private Inputer _inputer;
     [SerializeField] private WheelOfInput _wheelOfInput;
     [SerializeField] private bool _showInputWheel;
+    [SerializeField] private GivingContainer _fries;
+
+    private void Start()
+    {
+        _fries.Fill();
+    }
 
     private void OnEnable()
     {
