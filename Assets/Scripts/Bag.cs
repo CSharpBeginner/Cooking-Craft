@@ -3,34 +3,23 @@ using UnityEngine;
 
 public class Bag : MonoBehaviour
 {
-    [SerializeField] private Vector3Int _size;
+    [SerializeField] private Vector2Int _plane;
+    [SerializeField] private int _capacity;
 
     private List<Food> _foodList;
-    private bool _isAvailable;
-    private Food _animatingFood;
 
-    private int _capacity => _size.x * _size.y * _size.z;
+    public Vector2Int Plane => _plane;
+    public IReadOnlyList<Food> FoodList => _foodList;
 
     private void Awake()
     {
-        _isAvailable = true;
         _foodList = new List<Food>();
-    }
-
-    private void OnDisable()
-    {
-        _animatingFood.AnimationFinished -= Unlock;
     }
 
     public bool TryAdd(Food food)
     {
-        if (_foodList.Count < _capacity && _isAvailable)
+        if (_foodList.Count < _capacity)
         {
-            _isAvailable = false;
-            Vector3 targetPosition = new Vector3(0, _foodList.Count * food.Size.y, 0);
-            _animatingFood = food;
-            _animatingFood.AnimationFinished += Unlock;
-            _animatingFood.PlayAnimation(transform, targetPosition);
             _foodList.Add(food);
             return true;
         }
@@ -38,17 +27,10 @@ public class Bag : MonoBehaviour
         return false;
     }
 
-    private void Unlock()
-    {
-        _isAvailable = true;
-        _animatingFood.AnimationFinished -= Unlock;
-    }
-
     public bool TryGetFood(out Food food)
     {
-        if (_foodList.Count != 0 && _isAvailable)
+        if (_foodList.Count != 0)
         {
-            _isAvailable = false;
             food = _foodList[_foodList.Count - 1];
             Remove(food);
             return true;
