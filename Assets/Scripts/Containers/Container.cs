@@ -14,6 +14,8 @@ public class Container : MonoBehaviour
     private bool _isAvailable;
     private Food _animatingFood;
 
+    public Vector2Int Plane => _plane;
+    public IReadOnlyList<Food> FoodList => _foodList;
 
     private void Awake()
     {
@@ -25,32 +27,47 @@ public class Container : MonoBehaviour
     private void OnDisable()
     {
         _animatingFood.AnimationFinished -= Unlock;
+        foreach (Food food in _foodList)
+        {
+            food.Eaten -= Remove;
+        }
     }
 
     protected void TryGive(Collider other)
     {
-        if (_foodList.Count != 0 && other.TryGetComponent<Bag>(out Bag bag) && _isAvailable)
+        if (_foodList.Count != 0 && other.TryGetComponent<PlayerContainer>(out PlayerContainer playerContainer) && _isAvailable)
         {
             Food food = _foodList[_foodList.Count - 1];
 
-            if (bag.TryAdd(food))
+            if (playerContainer.TryAdd(food))
             {
                 _isAvailable = false;
-                Vector3Int coordinate = Coordinate.GetCoordinates(bag.FoodList.Count - 1, bag.Plane);
+                Vector3Int coordinate = Coordinate.GetCoordinates(playerContainer.FoodList.Count - 1, playerContainer.Plane);
                 Vector3 targetPosition = Coordinate.GetLocalCoordinates(coordinate, _prefab.Size);
                 _animatingFood = food;
                 _animatingFood.AnimationFinished += Unlock;
-                _animatingFood.PlayAnimation(bag.transform, targetPosition);
+                _animatingFood.PlayAnimation(playerContainer.transform, targetPosition);
                 _foodList.Remove(food);
             }
         }
     }
 
+    public bool TryAdd(Food food)
+    {
+        if (_foodList.Count < _capacity)
+        {
+            _foodList.Add(food);
+            return true;
+        }
+
+        return false;
+    }
+
     protected void TryTake(Collider other)
     {
-        if (other.TryGetComponent<Bag>(out Bag bag) && _isAvailable)
+        if (other.TryGetComponent<PlayerContainer>(out PlayerContainer playerContainer) && _foodList.Count < _capacity && _isAvailable)
         {
-            if (bag.TryGetFood(out Food food))
+            if (playerContainer.TryGetFood(out Food food))
             {
                 _isAvailable = false;
                 Vector3Int coordinate = Coordinate.GetCoordinates(_foodList.Count, _plane);
@@ -61,6 +78,45 @@ public class Container : MonoBehaviour
                 _foodList.Add(food);
             }
         }
+    }
+
+    protected void TryTake(Container other)
+    {
+        if (_foodList.Count < _capacity && _isAvailable)
+        {
+            if (other.TryGetFood(out Food food))
+            {
+                _isAvailable = false;
+                Vector3Int coordinate = Coordinate.GetCoordinates(_foodList.Count, _plane);
+                Vector3 targetPosition = Coordinate.GetLocalCoordinates(coordinate, _prefab.Size);
+                _animatingFood = food;
+                _animatingFood.AnimationFinished += Unlock;
+                _animatingFood.PlayAnimation(transform, targetPosition);
+                _animatingFood.PlayEatAnimation();
+                _foodList.Add(food);
+                food.Eaten += Remove;
+            }
+        }
+    }
+
+    public void Remove(Food food)
+    {
+        food.Eaten -= Remove;
+        _foodList.Remove(food);
+        Destroy(food);
+    }
+
+    public bool TryGetFood(out Food food)
+    {
+        if (_foodList.Count != 0)
+        {
+            food = _foodList[_foodList.Count - 1];
+            _foodList.Remove(food);
+            return true;
+        }
+
+        food = null;
+        return false;
     }
 
     public void Fill()

@@ -39,6 +39,10 @@ public class Inputer : MonoBehaviour
             {
                 Calculate();
             }
+            else
+            {
+                _share = 0;
+            }
         }
 
         if (Input.GetMouseButtonUp(0))

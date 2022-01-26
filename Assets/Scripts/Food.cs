@@ -6,9 +6,10 @@ public class Food : MonoBehaviour
 {
     [SerializeField] private Vector3 _size;
     [SerializeField] private float _animationTime;
+    [SerializeField] private float _eatingAnimationTime;
 
     public event UnityAction AnimationFinished;
-    //public event UnityAction AnimationStarted;
+    public event UnityAction<Food> Eaten;
 
     public Vector3 Size => _size;
 
@@ -22,6 +23,24 @@ public class Food : MonoBehaviour
         transform.SetParent(newParent);
         transform.rotation = newParent.rotation;
         StartCoroutine(Animate(targetPosition));
+    }
+
+    public void PlayEatAnimation()
+    {
+        StartCoroutine(Eat());
+    }
+
+    private IEnumerator Eat()
+    {
+        float time = 0;
+
+        while (time < _eatingAnimationTime)
+        {
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        Eaten?.Invoke(this);
     }
 
     private IEnumerator Animate(Vector3 targetPosition)

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -9,6 +10,7 @@ public class Player : MonoBehaviour
 
     private Rigidbody _rigidbody;
     private Animator _animator;
+    private Coroutine _updateTransform;
 
     private void Awake()
     {
@@ -16,16 +18,50 @@ public class Player : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        Vector3 direction = RotateTo90degres(_inputer.Direction);
-        Rotate(direction);
-        Move(direction);
+        _inputer.TouchStarted += OnTouchStarted;
+        _inputer.TouchFinished += OnTouchFinished;
+    }
+
+    private void OnDisable()
+    {
+        _inputer.TouchStarted -= OnTouchStarted;
+        _inputer.TouchFinished -= OnTouchFinished;
     }
 
     private Vector3 RotateTo90degres(Vector3 vector)
     {
         return new Vector3(vector.x, vector.z, vector.y);
+    }
+
+    private void OnTouchStarted()
+    {
+        if (_updateTransform != null)
+        {
+            StopCoroutine(_updateTransform);
+        }
+
+        _updateTransform = StartCoroutine(UpdateTransform());
+    }
+
+    private IEnumerator UpdateTransform()
+    {
+        while (true)
+        {
+            Vector3 direction = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up) * RotateTo90degres(_inputer.Direction);
+            Rotate(direction);
+            Move(direction);
+            yield return null;
+        }
+    }
+
+    private void OnTouchFinished()
+    {
+        StopCoroutine(_updateTransform);
+        Vector3 direction = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up) * RotateTo90degres(_inputer.Direction);
+        Rotate(direction);
+        Move(direction);
     }
 
     private void Move(Vector3 direction)
