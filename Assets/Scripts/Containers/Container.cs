@@ -14,6 +14,7 @@ public class Container : MonoBehaviour
     private bool _isAvailable;
     private Food _animatingFood;
 
+    public int Capacity => _capacity;
     public Vector2Int Plane => _plane;
     public IReadOnlyList<Food> FoodList => _foodList;
 
@@ -137,5 +138,10 @@ public class Container : MonoBehaviour
     {
         _isAvailable = true;
         _animatingFood.AnimationFinished -= Unlock;
+    }
+
+    protected void SetCapacity(int value)
+    {
+        _capacity = value;
     }
 }
