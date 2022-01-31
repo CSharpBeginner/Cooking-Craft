@@ -9,7 +9,7 @@ public class Food : MonoBehaviour
     [SerializeField] private float _eatingAnimationTime;
 
     public event UnityAction AnimationFinished;
-    public event UnityAction<Food> Eaten;
+    public event UnityAction Eaten;
 
     public Vector3 Size => _size;
 
@@ -40,7 +40,7 @@ public class Food : MonoBehaviour
             yield return null;
         }
 
-        Eaten?.Invoke(this);
+        Eaten?.Invoke();
     }
 
     private IEnumerator Animate(Vector3 targetPosition)

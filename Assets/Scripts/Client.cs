@@ -4,11 +4,11 @@ using UnityEngine.AI;
 
 public class Client : MonoBehaviour
 {
-    [SerializeField] private List<Transform> _targets;
+    [SerializeField] private List<FinalContainer> _targets;
 
     private static int _lastAvoidencePriority;
     private NavMeshAgent _navMeshAgent;
-    private Vector3 _target;
+    private FinalContainer _target;
     private int _avoidancePriority;
 
     private void Awake()
@@ -21,15 +21,11 @@ public class Client : MonoBehaviour
         _avoidancePriority = _lastAvoidencePriority++;
         _target = GetRandomTarget();
         _navMeshAgent.avoidancePriority = _avoidancePriority;
+        _navMeshAgent.SetDestination(_target.transform.position);
     }
 
-    private Vector3 GetRandomTarget()
+    private FinalContainer GetRandomTarget()
     {
-        return _targets[Random.Range(0, _targets.Count)].position;
-    }
-
-    private void FixedUpdate()
-    {
-        _navMeshAgent.SetDestination(_target);
+        return _targets[Random.Range(0, _targets.Count)];
     }
 }
