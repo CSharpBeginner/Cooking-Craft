@@ -13,11 +13,14 @@ public class TakingContainer : MonoBehaviour
     private List<Food> _foodList;
     private bool _isAvailable;
     private Food _animatingFood;
+    private int _necessity;
 
-    public event UnityAction<int> CapacityChanged;
-    public event UnityAction Added;
+    public event UnityAction<int> NessecityChanged;
+    public event UnityAction NessecitySetted;
     public event UnityAction Entered;
     public event UnityAction Exited;
+
+    public int Nessecity => _necessity;
 
     private void Awake()
     {
@@ -59,7 +62,8 @@ public class TakingContainer : MonoBehaviour
                 _animatingFood.AnimationFinished += Unlock;
                 _animatingFood.PlayAnimation(transform, targetPosition);
                 _foodList.Add(food);
-                Added?.Invoke();
+                _necessity--;
+                NessecityChanged?.Invoke(_necessity);
             }
         }
     }
@@ -68,7 +72,8 @@ public class TakingContainer : MonoBehaviour
     {
         if (_capacity == 0 && _foodList.Count == 0)
         {
-            SetCapacity(Random.Range(_minCapacity, _maxCapacity));
+            _capacity = Random.Range(_minCapacity, _maxCapacity);
+            SetNessecity(Random.Range(_minCapacity, _maxCapacity));
         }
     }
 
@@ -92,9 +97,10 @@ public class TakingContainer : MonoBehaviour
         _animatingFood.AnimationFinished -= Unlock;
     }
 
-    private void SetCapacity(int value)
+    private void SetNessecity(int value)
     {
-        _capacity = value;
-        CapacityChanged?.Invoke(value);
+        _necessity = value;
+        NessecitySetted?.Invoke();
+        NessecityChanged?.Invoke(_necessity);
     }
 }
