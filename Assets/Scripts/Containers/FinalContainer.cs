@@ -27,6 +27,14 @@ public class FinalContainer : MonoBehaviour
         _animatingFood.Eaten -= Remove;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent<Client>(out Client client))
+        {
+            _container.TryUpdateOrder();
+        }
+    }
+
     private void TryTake(TakingContainer other)
     {
         if (_foodList.Count < _capacity)
@@ -37,7 +45,7 @@ public class FinalContainer : MonoBehaviour
                 Vector3 targetPosition = Coordinate.GetLocalCoordinates(coordinate, _prefab.Size);
                 _animatingFood = food;
                 _animatingFood.AnimationFinished += Eat;
-                _animatingFood.PlayAnimation(transform, targetPosition);
+                _animatingFood.Drag(transform, targetPosition);
                 _foodList.Add(food);
             }
         }
@@ -46,22 +54,14 @@ public class FinalContainer : MonoBehaviour
     private void Eat()
     {
         _animatingFood.AnimationFinished -= Eat;
-        _animatingFood.PlayEatAnimation();
+        _animatingFood.Eat();
         _animatingFood.Eaten += Remove;
     }
 
-    public void Remove()
+    private void Remove()
     {
         _animatingFood.Eaten -= Remove;
         _foodList.Remove(_animatingFood);
         Destroy(_animatingFood.gameObject);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent<Client>(out Client client))
-        {
-            _container.TryUpdateOrder();
-        }
     }
 }

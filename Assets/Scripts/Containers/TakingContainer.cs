@@ -21,6 +21,7 @@ public class TakingContainer : MonoBehaviour
     public event UnityAction Exited;
 
     public int Nessecity => _necessity;
+    public Sprite Sprite => _prefab.Sprite;
 
     private void Awake()
     {
@@ -49,25 +50,6 @@ public class TakingContainer : MonoBehaviour
         }
     }
 
-    private void TryTake(Collider other)
-    {
-        if (other.TryGetComponent<Bag>(out Bag bag) && _foodList.Count < _capacity && _isAvailable)
-        {
-            if (bag.TryGetFood(out Food food))
-            {
-                _isAvailable = false;
-                Vector3Int coordinate = Coordinate.GetCoordinates(_foodList.Count, _plane);
-                Vector3 targetPosition = Coordinate.GetLocalCoordinates(coordinate, _prefab.Size);
-                _animatingFood = food;
-                _animatingFood.AnimationFinished += Unlock;
-                _animatingFood.PlayAnimation(transform, targetPosition);
-                _foodList.Add(food);
-                _necessity--;
-                NessecityChanged?.Invoke(_necessity);
-            }
-        }
-    }
-
     public void TryUpdateOrder()
     {
         if (_capacity == 0 && _foodList.Count == 0)
@@ -89,6 +71,25 @@ public class TakingContainer : MonoBehaviour
 
         food = null;
         return false;
+    }
+
+    private void TryTake(Collider other)
+    {
+        if (other.TryGetComponent<Bag>(out Bag bag) && _foodList.Count < _capacity && _isAvailable)
+        {
+            if (bag.TryGetFood(out Food food))
+            {
+                _isAvailable = false;
+                Vector3Int coordinate = Coordinate.GetCoordinates(_foodList.Count, _plane);
+                Vector3 targetPosition = Coordinate.GetLocalCoordinates(coordinate, _prefab.Size);
+                _animatingFood = food;
+                _animatingFood.AnimationFinished += Unlock;
+                _animatingFood.Fly(transform, targetPosition);
+                _foodList.Add(food);
+                _necessity--;
+                NessecityChanged?.Invoke(_necessity);
+            }
+        }
     }
 
     private void Unlock()

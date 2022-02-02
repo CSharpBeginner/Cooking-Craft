@@ -30,6 +30,20 @@ public class GivingContainer : MonoBehaviour
         TryGive(other);
     }
 
+    public void Fill()
+    {
+        for (int i = 0; i < _capacity; i++)
+        {
+            Vector3Int coordinate = Coordinate.GetCoordinates(i, _plane);
+            Food newFood = Instantiate(_prefab, transform);
+            newFood.transform.localPosition = Coordinate.GetLocalCoordinates(coordinate, _prefab.Size);
+            _foodList.Add(newFood);
+        }
+
+        _boxCollider.size = new Vector3((_plane.y + _additionalSize) * _prefab.Size.x, (_capacity / (_plane.x * _plane.y) + _additionalSize) * _prefab.Size.y, (_plane.x + _additionalSize) * _prefab.Size.z);
+        _boxCollider.center = new Vector3((_plane.y - 1) / 2f * _prefab.Size.x, ((_capacity - 1) / (_plane.x * _plane.y)) / 2f * _prefab.Size.y, (_plane.x - 1) / 2f * _prefab.Size.z);
+    }
+
     private void TryGive(Collider other)
     {
         if (_foodList.Count != 0 && other.TryGetComponent<Bag>(out Bag bag) && _isAvailable)
@@ -43,7 +57,7 @@ public class GivingContainer : MonoBehaviour
                 Vector3 targetPosition = Coordinate.GetLocalCoordinates(coordinate, _prefab.Size);
                 _animatingFood = food;
                 _animatingFood.AnimationFinished += Unlock;
-                _animatingFood.PlayAnimation(bag.transform, targetPosition);
+                _animatingFood.Fly(bag.transform, targetPosition);
                 _foodList.Remove(food);
             }
         }
@@ -53,19 +67,5 @@ public class GivingContainer : MonoBehaviour
     {
         _isAvailable = true;
         _animatingFood.AnimationFinished -= Unlock;
-    }
-
-    public void Fill()
-    {
-        for (int i = 0; i < _capacity; i++)
-        {
-            Vector3Int coordinate = Coordinate.GetCoordinates(i, _plane);
-            Food newFood = Instantiate(_prefab, transform);
-            newFood.transform.localPosition = Coordinate.GetLocalCoordinates(coordinate, _prefab.Size);
-            _foodList.Add(newFood);
-        }
-
-        _boxCollider.size = new Vector3((_plane.y + _additionalSize) * _prefab.Size.x, (_capacity / (_plane.x * _plane.y) + _additionalSize) * _prefab.Size.y, (_plane.x + _additionalSize) * _prefab.Size.z);
-        _boxCollider.center = new Vector3((_plane.y - 1) / 2f * _prefab.Size.x, ((_capacity - 1) / (_plane.x * _plane.y)) / 2f * _prefab.Size.y, (_plane.x - 1) / 2f * _prefab.Size.z);
     }
 }

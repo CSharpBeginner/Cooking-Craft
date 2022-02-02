@@ -5,6 +5,7 @@ public class Bag : MonoBehaviour
 {
     [SerializeField] private Vector2Int _plane;
     [SerializeField] private int _capacity;
+
     private List<Food> _foodList;
 
     public Vector2Int Plane => _plane;

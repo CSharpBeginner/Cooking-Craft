@@ -2,35 +2,51 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(AudioSource))]
 public class Food : MonoBehaviour
 {
+    [SerializeField] private Sprite _sprite;
     [SerializeField] private Vector3 _size;
     [SerializeField] private float _animationTime;
     [SerializeField] private float _eatingAnimationTime;
+
+    private AudioSource _audioSource;
 
     public event UnityAction AnimationFinished;
     public event UnityAction Eaten;
 
     public Vector3 Size => _size;
+    public Sprite Sprite => _sprite;
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireCube(transform.position, _size);
     }
 
-    public void PlayAnimation(Transform newParent, Vector3 targetPosition)
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
+
+    public void Fly(Transform newParent, Vector3 targetPosition)
+    {
+        _audioSource.Play();
+        Drag(newParent, targetPosition);
+    }
+
+    public void Drag(Transform newParent, Vector3 targetPosition)
     {
         transform.SetParent(newParent);
         transform.rotation = newParent.rotation;
-        StartCoroutine(Animate(targetPosition));
+        StartCoroutine(Flying(targetPosition));
     }
 
-    public void PlayEatAnimation()
+    public void Eat()
     {
-        StartCoroutine(Eat());
+        StartCoroutine(Eating());
     }
 
-    private IEnumerator Eat()
+    private IEnumerator Eating()
     {
         float time = 0;
 
@@ -43,7 +59,7 @@ public class Food : MonoBehaviour
         Eaten?.Invoke();
     }
 
-    private IEnumerator Animate(Vector3 targetPosition)
+    private IEnumerator Flying(Vector3 targetPosition)
     {
         float updateInterval = 0.05f;
         var waiting = new WaitForSeconds(updateInterval);
