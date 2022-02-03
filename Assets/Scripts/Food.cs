@@ -9,6 +9,8 @@ public class Food : MonoBehaviour
     [SerializeField] private Vector3 _size;
     [SerializeField] private float _animationTime;
     [SerializeField] private float _eatingAnimationTime;
+    [SerializeField] private AnimationCurve _flyCurve;
+    [SerializeField] private float _flyHeightMultiplier;
 
     private AudioSource _audioSource;
 
@@ -37,7 +39,6 @@ public class Food : MonoBehaviour
     public void Drag(Transform newParent, Vector3 targetPosition)
     {
         transform.SetParent(newParent);
-        transform.rotation = newParent.rotation;
         StartCoroutine(Flying(targetPosition));
     }
 
@@ -61,18 +62,19 @@ public class Food : MonoBehaviour
 
     private IEnumerator Flying(Vector3 targetPosition)
     {
-        float updateInterval = 0.05f;
-        var waiting = new WaitForSeconds(updateInterval);
         Vector3 startPosition = transform.localPosition;
+        Quaternion startRotation = transform.localRotation;
         float progress = 0;
         float time = 0f;
+        float flyCurveAnimationTime = _flyCurve[_flyCurve.length - 1].time - _flyCurve[0].time;
 
         while (progress <= 1)
         {
-            time += updateInterval;
+            time += Time.deltaTime;
             progress = time / _animationTime;
-            transform.localPosition = Vector3.Lerp(startPosition, targetPosition, progress);
-            yield return waiting;
+            transform.localRotation = Quaternion.Lerp(startRotation, Quaternion.identity, progress);
+            transform.localPosition = Vector3.Lerp(startPosition, targetPosition, progress) + new Vector3(0, _flyCurve.Evaluate(_flyCurve[0].time + progress * flyCurveAnimationTime) * _flyHeightMultiplier, 0);
+            yield return null;
         }
 
         AnimationFinished?.Invoke();

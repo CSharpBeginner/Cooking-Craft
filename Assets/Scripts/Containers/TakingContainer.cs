@@ -8,8 +8,8 @@ public class TakingContainer : MonoBehaviour
     [SerializeField] private int _maxCapacity;
     [SerializeField] private Food _prefab;
     [SerializeField] private Vector2Int _plane;
-    [SerializeField] private int _capacity;
 
+    private int _capacity;
     private List<Food> _foodList;
     private bool _isAvailable;
     private Food _animatingFood;
@@ -55,7 +55,7 @@ public class TakingContainer : MonoBehaviour
         if (_capacity == 0 && _foodList.Count == 0)
         {
             _capacity = Random.Range(_minCapacity, _maxCapacity);
-            SetNessecity(Random.Range(_minCapacity, _maxCapacity));
+            SetNessecity(_capacity);
         }
     }
 
