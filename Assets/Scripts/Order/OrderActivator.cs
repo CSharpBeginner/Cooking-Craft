@@ -10,7 +10,7 @@ public class OrderActivator : MonoBehaviour
 
     private void Start()
     {
-        transform.LookAt(2 * transform.position - _camera.transform.position);
+        transform.LookAt(transform.position + _camera.transform.forward);
     }
 
     private void OnEnable()

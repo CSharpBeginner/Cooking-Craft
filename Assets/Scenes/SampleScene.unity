@@ -265,7 +265,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376353764}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -4.02, y: 0.6, z: 9.1}
+  m_LocalPosition: {x: 0.11, y: 0.4, z: 9.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -734,8 +734,8 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 100
-  field of view: 60
-  orthographic: 1
+  field of view: 18.4
+  orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -760,7 +760,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.2719665, y: 0.27235043, z: -0.080560125, w: 0.9194398}
-  m_LocalPosition: {x: -30.4, y: 37.6, z: -46.9}
+  m_LocalPosition: {x: -14.83, y: 18.63, z: -22.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2144843974}
@@ -1102,7 +1102,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 5183e660cf5ae7f4c99acb4fd4368ebe, type: 2}
-  - {fileID: 2100000, guid: 5f447eaaa6f3d8f4f90b39aaff828765, type: 2}
+  - {fileID: 2100000, guid: 5183e660cf5ae7f4c99acb4fd4368ebe, type: 2}
   - {fileID: 2100000, guid: 4545e2afe51acb34ab3d4972d54aa623, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -1116,7 +1116,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -2694,7 +2694,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18890
+  m_Name: pb_Mesh18932
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3019,9 +3019,9 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 100
-  field of view: 60
-  orthographic: 1
-  orthographic size: 5
+  field of view: 18.4
+  orthographic: 0
+  orthographic size: 4
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
